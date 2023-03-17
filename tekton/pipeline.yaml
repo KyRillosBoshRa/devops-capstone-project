@@ -23,6 +23,20 @@ spec:
       taskRef:
         name: cleanup
     
+    - name: build
+      workspaces:
+        - name: source
+          workspace: pipeline-workspace
+      taskRef:
+        name: buildah
+        kind: ClusterTask
+      params:
+      - name: IMAGE
+        value: "$(params.build-image)"
+      runAfter:
+        - tests
+        - lint
+
     - name: lint
       workspaces:
         - name: source
